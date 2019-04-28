@@ -1,0 +1,103 @@
+version: 2.1
+
+commands:
+  gradle:
+    parameters:
+      cmd:
+        type: string
+        default: "build"
+    steps:
+      - run: ./gradlew << parameters.cmd >>
+  save_workspace:
+    steps:
+      - persist_to_workspace:
+          root: ~/jwks-service
+          paths:
+            - .
+  restore_workspace:
+    steps:
+      - attach_workspace:
+          at: ~/jwks-service
+  restore_gradle:
+    steps:
+      - restore_cache:
+          key: dependency-cache-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore_cache:
+          key: dependency-cache-{{ checksum "build.gradle.kts" }}
+  save_gradle:
+    steps:
+      - save_cache:
+          key: dependency-cache-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+          paths:
+            - ~/.gradle/wrapper
+      - save_cache:
+          key: dependency-cache-{{ checksum "build.gradle.kts" }}
+          paths:
+            - ~/.gradle/caches
+
+orbs:
+  codecov: codecov/codecov@1.0.2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8u181-jdk
+    working_directory: ~/jwks-service
+    steps:
+      - checkout
+      - restore_gradle
+      - gradle:
+          cmd: test jacocoTestReport build
+      - codecov/upload:
+          file: build/reports/jacoco/test/jacocoTestReport.xml
+      - run: |
+          if [ "$CIRCLE_BRANCH" == "master" ]; then
+            APPENDIX=""
+          elif [ "$CIRCLE_BRANCH" == "development" ]; then
+            APPENDIX="-SNAPSHOT"
+          else
+            APPENDIX="-${CIRCLE_SHA1}"
+          fi
+          echo $(./gradlew properties -q | grep "^version:" | awk '{print $2}')$APPENDIX > build/current_version
+          echo "current version is: "
+          cat build/current_version
+      - save_gradle
+      - save_workspace
+  image:
+    docker:
+      - image: docker:18.09.5
+    working_directory: ~/jwks-service
+    steps:
+      - setup_remote_docker
+      - restore_workspace
+      - run: |
+          unset CURRENT_VERSION
+          CURRENT_VERSION=$(cat build/current_version)
+          docker build -t imulab/q-jwks-service:${CURRENT_VERSION} .
+          echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
+          docker push imulab/q-jwks-service:${CURRENT_VERSION}
+
+workflows:
+  version: 2.1
+  dev:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore: master
+      - image:
+          requires:
+            - build
+  master:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+      - hold:
+          type: approval
+          requires:
+            - build
+      - image:
+          requires:
+            - hold

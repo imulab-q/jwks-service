@@ -40,7 +40,7 @@ dependencies {
 
 tasks {
     test {
-        useJUnitPlatform()
+        useJUnit()
         testLogging {
             events("PASSED", "FAILED", "SKIPPED")
         }
