@@ -35,7 +35,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.bitbucket.b_c:jose4j:0.6.5")
 
-    testImplementation("junit:junit:4.12")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks {

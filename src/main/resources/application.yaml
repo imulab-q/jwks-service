@@ -3,7 +3,7 @@ server:
 
 ---
 spring:
-  profiles: dev
+  profiles: dev,test
 
 jwks:
   value: |
