@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+---
+spring:
+  profiles: dev
+
+jwks:
+  value: |
+    {
+       "keys":[
+          {
+             "kty":"RSA",
+             "kid":"3b437dfc-070c-4ef3-8b04-0f4b8dfe4805",
+             "use":"sig",
+             "alg":"RS256",
+             "n":"pwUyqURXl0SoB8rz2zrSXbcfHMbkRRA0sDKIBYEUQBSSWmaDfZtuo-qMH3uPqKGUSxfQ1u1UzbVQKhwD_zI8vlqxrCKVducylj_6xwrRw0_aO3b8oOyQusKIkJto4FetNwFYEBnlAYJwTLPBWG5kNHBm6f4bZcXf2C1b5NQ0XcBGdpjSs6s7N5Lvt6yEMlEdjtt8p-tZ3ntkDYNrDMGUi2_P8qXP8V-pBx7VRiwGa3Ti0cJBvUywy65o51YKr3NELwO1SJ1Sub--Dd9KPdFs40v20e36nM9MFrj1zBuOp0jSw7Zo9WuE7zMMfmm3gp1WOCFoRWZFlDiTH_ZbglSLmQ",
+             "e":"AQAB",
+             "d":"gfKLXiMsOydRzO5dGN8FOaD2df9RL2LSe5x1NEMfrFPVIrzL5Xh_ds1QRFZwiXVd2acn93EkIADH5FtzyKQfmsMZpaIqxB5Rv5D73s1OMzX3x3hmShaE7KnacxhXWuUcgcVr7OsYwDnqgeMBtXn-QMaLa9cnHeH8rUdtTfbE34MravsGU6NL8Zy-xJ87yLtxAcXnqnFp7Ms6vp6iaSMg31I_WFtcP3H1zoBrShfa5j2KvZz6bvWZn4Jqeqi3TYJ-LordAu1UIC-AUNa8HEBEpf8MMc6xR7UJWg1nvFyXleg8naiLaFf6mwlUWnvPecPYh_uGoOgxuBGYk-f-wY1Q4Q",
+             "p":"6vJ01yqajnybpHy_FleSDn69WjFzwDjXCt6zvZH-_O9VtG7LRCaL8UfB2tNsl8yxVyCSpLscKHTpAmOKzdoizt9_jwgrvtmqI1AwMbtXig-nOP9PxApiQJ7vpogvYji5y3cZB_4w6OZM8EEL4DrxQ-zE4qZt0axkBE2EPT0bpbU",
+             "q":"tfyKzDfQUqgGXSBy55BYVCubHCpKElS7_2fHKue1lCxl8fi9VU4GKx5Pvr2jpKa7_WH2Y2w0SPk3mVFcbvAI77o_rkpu1MOPK6nlxnfe5-f_n5B455spAq0pWDaTgAhCj_CztHvdtCYJ6QKx8jPYHuMLEyjKq_6MAdDyXvfQfNU",
+             "dp":"aQ2woOUz5rJhBdOhveO6MzEIiePC1hiUTw_1XraBRafesqc3zGlP-bsUOzx-OgIU6dhuuanQlWZxKdhIoHMBTW8yIkqNBPFe2hto8VPLeLg3FY1TpVzfQfXPQq9yQIEM0qWWU7SdOgaAMI1lOgYhCzY7cvzn7fEfZ60hjCBe1GE",
+             "dq":"QIUnpF2JYzSlBPFTK5v2ZOkM1gB8QGGAQX3GlASQUNco0Y_xeEPwVesqNKLBWMewUJYhp4AeTVzmBFpfHgnF8VAj8aP8BTzMDpvuld27zpZm_2hWJS7SbFt-FANNahADoUqiO7PKl2sBCnZlJkyRK-os6_8DU9UsSByPQXI0nX0",
+             "qi":"ZB2zicdJLZbQGiBZwkQ80UWkKAPG8w_aErrjoJlfG3N2n8fEvgX5oyg4SwjQXivx5xEzeO-2-gW5upAEsMFra42MAwkNLKbXZEsbM3eQnR9HsTVUKgKl-F0xvI1IeF0Q66svmdt5eGtRvd0Wmf6NG9oAle4FaabnC0_rQuvtBLk"
+          }
+       ]
+    }
+  path: ""
+
+---
+spring:
+  profiles: production
+
+jwks:
+  value: ""
+  path: ""
